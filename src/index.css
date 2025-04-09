@@ -9,3 +9,16 @@ body {
   flex-direction: column;
   height: 100vh;
 }
+
+.app__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  background-color: #9933ff;
+  color: #fff;
+}
+
+.app__header h1 {
+  font-size: 1.5rem;
+}

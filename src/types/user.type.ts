@@ -22,7 +22,7 @@ export type UsersContextType = {
   users: User[];
   setUsers: (users: User[]) => void;
   query: string;
-  setQuery: (query: string) => void;
   loading: boolean;
   error: string | null;
+  handleSearchUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };

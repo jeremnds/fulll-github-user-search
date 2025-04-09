@@ -1,17 +1,19 @@
+import { User } from "@/types/user.type";
 import { useEffect, useState } from "react";
+import { UsersContext } from "./context";
 
-export default function useGithubSearch() {
+export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [query, setQuery] = useState("");
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = (query: string) => {
-    setQuery(query);
-  };
-
   useEffect(() => {
-    const fetchSearchedUsers = async () => {
+    const fetchUsers = async () => {
+      if (!query.trim()) {
+        setUsers([]);
+        return;
+      }
       try {
         setLoading(true);
         const response = await fetch(
@@ -27,8 +29,18 @@ export default function useGithubSearch() {
         setLoading(false);
       }
     };
-    fetchSearchedUsers();
+    fetchUsers();
   }, [query]);
 
-  return { users, loading, error, handleSearch };
-}
+  const handleSearchUsers = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  return (
+    <UsersContext.Provider
+      value={{ users, setUsers, query, loading, error, handleSearchUsers }}
+    >
+      {children}
+    </UsersContext.Provider>
+  );
+};
