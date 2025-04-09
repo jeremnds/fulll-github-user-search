@@ -1,3 +1,4 @@
+import { useDebounce } from "@/hooks/useDebounce";
 import { User } from "@/types/user.type";
 import { useEffect, useState } from "react";
 import { UsersContext } from "./context";
@@ -7,17 +8,18 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      if (!query.trim()) {
+      if (!debouncedQuery.trim()) {
         setUsers([]);
         return;
       }
       try {
         setLoading(true);
         const response = await fetch(
-          `https://api.github.com/search/users?q=${query}`
+          `https://api.github.com/search/users?q=${debouncedQuery}`
         );
         const data = await response.json();
         setUsers(data.items);
@@ -30,7 +32,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
     fetchUsers();
-  }, [query]);
+  }, [debouncedQuery]);
 
   const handleSearchUsers = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
