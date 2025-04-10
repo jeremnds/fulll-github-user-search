@@ -25,4 +25,5 @@ export type UsersContextType = {
   loading: boolean;
   error: string | null;
   handleSearchUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSelectedUsers: (user: User) => void;
 };

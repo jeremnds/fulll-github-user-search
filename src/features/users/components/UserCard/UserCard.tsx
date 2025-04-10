@@ -1,3 +1,4 @@
+import { useUsers } from "@/hooks/useUsers";
 import { User } from "@/types/user.type";
 import "./UserCard.css";
 
@@ -6,8 +7,14 @@ type UserCardProps = {
 };
 
 export default function UserCard({ user }: UserCardProps) {
+  const { handleSelectedUsers } = useUsers();
   return (
     <div className="user-card__container">
+      <input
+        type="checkbox"
+        className="user-card__checkbox"
+        onClick={() => handleSelectedUsers(user)}
+      />
       <img
         src={user.avatar_url}
         alt={user.login}

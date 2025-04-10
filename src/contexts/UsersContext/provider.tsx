@@ -10,6 +10,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const debouncedQuery = useDebounce(query, 300);
 
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   useEffect(() => {
     const fetchUsers = async () => {
       if (!debouncedQuery.trim()) {
@@ -38,9 +39,22 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setQuery(e.target.value);
   };
 
+  const handleSelectedUsers = (user: User) => {
+    setSelectedUsers((prev) => [...prev, user]);
+    console.log(selectedUsers);
+  };
+
   return (
     <UsersContext.Provider
-      value={{ users, setUsers, query, loading, error, handleSearchUsers }}
+      value={{
+        users,
+        setUsers,
+        query,
+        loading,
+        error,
+        handleSearchUsers,
+        handleSelectedUsers,
+      }}
     >
       {children}
     </UsersContext.Provider>
