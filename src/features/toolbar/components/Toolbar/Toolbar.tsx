@@ -1,3 +1,5 @@
+import DuplicateIcon from "@/components/icons/DuplicateIcon";
+import TrashIcon from "@/components/icons/TrashIcon";
 import { useUsers } from "@/hooks/useUsers";
 import "./Toolbar.css";
 
@@ -5,8 +7,10 @@ export default function Toolbar() {
   const {
     handleSelectAllUsers,
     handleDeselectAllUsers,
-    handleDeleteUsers,
+    handleDeleteSelectedUsers,
+    handleDuplicateUsers,
     totalSelected,
+    selectedUserIds,
   } = useUsers();
 
   return (
@@ -21,14 +25,26 @@ export default function Toolbar() {
           checked={totalSelected > 0}
         />
         <p className="toolbar__label">
-          {totalSelected === 0
-            ? "Select all elements"
-            : `${totalSelected} elements selected`}
+          {totalSelected === 0 ? (
+            "Select all elements"
+          ) : (
+            <>
+              <span className="toolbar__label-count">{totalSelected}</span>{" "}
+              elements selected
+            </>
+          )}
         </p>
       </div>
       <div className="toolbar__right">
-        <button onClick={handleDeleteUsers}>Delete</button>
-        <button>Duplicate</button>
+        <button
+          className="toolbar__button"
+          onClick={() => handleDeleteSelectedUsers(selectedUserIds)}
+        >
+          <TrashIcon />
+        </button>
+        <button className="toolbar__button" onClick={handleDuplicateUsers}>
+          <DuplicateIcon />
+        </button>
       </div>
     </div>
   );

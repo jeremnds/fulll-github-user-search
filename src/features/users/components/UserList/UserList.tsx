@@ -6,7 +6,7 @@ import UserCard from "../UserCard/UserCard";
 import "./UserList.css";
 
 export default function UserList() {
-  const { users, loading, error } = useUsers();
+  const { users, loading, error, hasSearched } = useUsers();
 
   return (
     <>
@@ -15,11 +15,11 @@ export default function UserList() {
       {!error && (
         <>
           {loading && <LoadingSpinner />}
-          {!loading && users?.length === 0 && <NoResults />}
+          {!loading && users?.length === 0 && hasSearched && <NoResults />}
           {!loading && users?.length > 0 && (
             <div className="user-list__container">
               {users.map((user) => (
-                <UserCard key={user.id} user={user} />
+                <UserCard key={user.localId} user={user} />
               ))}
             </div>
           )}

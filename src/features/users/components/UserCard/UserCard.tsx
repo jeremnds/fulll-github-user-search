@@ -1,9 +1,9 @@
 import { useUsers } from "@/hooks/useUsers";
-import { User } from "@/types/user.type";
+import { LocalUser } from "@/types/user.type";
 import "./UserCard.css";
 
 type UserCardProps = {
-  user: User;
+  user: LocalUser;
 };
 
 export default function UserCard({ user }: UserCardProps) {
@@ -13,7 +13,7 @@ export default function UserCard({ user }: UserCardProps) {
       <input
         type="checkbox"
         className="user-card__checkbox"
-        checked={isUserSelected(user.id)}
+        checked={isUserSelected(user.localId)}
         onChange={() => handleToggleUser(user)}
       />
       <img

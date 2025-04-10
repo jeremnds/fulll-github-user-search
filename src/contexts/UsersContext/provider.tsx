@@ -1,15 +1,16 @@
 import { useDebounce } from "@/hooks/useDebounce";
-import { User } from "@/types/user.type";
+import { LocalUser, User } from "@/types/user.type";
+import { generateLocalId } from "@/utils/generateLocalId";
 import { useEffect, useState } from "react";
 import { UsersContext } from "./context";
 
 export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [query, setQuery] = useState("");
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<LocalUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
-
+  const [hasSearched, setHasSearched] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
   const totalSelected = selectedUserIds.length;
   const isUserSelected = (userId: number) => selectedUserIds.includes(userId);
@@ -32,13 +33,20 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         const data = await response.json();
-        setUsers(data.items);
+        setUsers(
+          data.items.map((user: User) => ({
+            ...user,
+            localId: generateLocalId(),
+          }))
+        );
       } catch (error) {
         setError(
           error instanceof Error ? error.message : "An unknown error occurred"
         );
       } finally {
         setLoading(false);
+        setHasSearched(true);
+        setSelectedUserIds([]);
       }
     };
     fetchUsers();
@@ -48,25 +56,41 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setQuery(e.target.value);
   };
 
-  const handleToggleUser = (user: User) => {
+  const handleToggleUser = (user: LocalUser) => {
     setSelectedUserIds((prev) =>
-      prev.includes(user.id)
-        ? prev.filter((id) => id !== user.id)
-        : [...prev, user.id]
+      prev.includes(user.localId)
+        ? prev.filter((id) => id !== user.localId)
+        : [...prev, user.localId]
     );
-    console.log(selectedUserIds);
   };
 
   const handleSelectAllUsers = () => {
-    setSelectedUserIds(users.map((user) => user.id));
+    setSelectedUserIds(users.map((user) => user.localId));
   };
 
   const handleDeselectAllUsers = () => {
     setSelectedUserIds([]);
   };
 
-  const handleDeleteUsers = () => {
-    setUsers(users.filter((user) => !isUserSelected(user.id)));
+  const handleDeleteSelectedUsers = (localIds: number[]) => {
+    if (totalSelected === 0) return;
+
+    setUsers((prev) => prev.filter((user) => !localIds.includes(user.localId)));
+    setSelectedUserIds((prev) => prev.filter((id) => !localIds.includes(id)));
+  };
+
+  const handleDuplicateUsers = () => {
+    if (totalSelected === 0) return;
+
+    const duplicatedUsers = users
+      .filter((user) => isUserSelected(user.localId))
+      .map((user) => ({
+        ...user,
+        localId: generateLocalId(),
+      }));
+
+    setUsers([...users, ...duplicatedUsers]);
+    setSelectedUserIds([]);
   };
 
   return (
@@ -77,13 +101,16 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         query,
         loading,
         error,
+        selectedUserIds,
+        hasSearched,
         totalSelected,
         isUserSelected,
         handleSearchUsers,
         handleToggleUser,
         handleSelectAllUsers,
         handleDeselectAllUsers,
-        handleDeleteUsers,
+        handleDeleteSelectedUsers,
+        handleDuplicateUsers,
       }}
     >
       {children}

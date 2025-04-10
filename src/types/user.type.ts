@@ -18,17 +18,24 @@ export type User = {
   score: number;
 };
 
+export type LocalUser = User & {
+  localId: number;
+};
+
 export type UsersContextType = {
-  users: User[];
-  setUsers: (users: User[]) => void;
+  users: LocalUser[];
+  setUsers: (users: LocalUser[]) => void;
   query: string;
   loading: boolean;
   error: string | null;
   totalSelected: number;
+  hasSearched: boolean;
+  selectedUserIds: number[];
   isUserSelected: (userId: number) => boolean;
   handleSearchUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleToggleUser: (user: User) => void;
+  handleToggleUser: (user: LocalUser) => void;
   handleSelectAllUsers: () => void;
   handleDeselectAllUsers: () => void;
-  handleDeleteUsers: () => void;
+  handleDeleteSelectedUsers: (localIds: number[]) => void;
+  handleDuplicateUsers: () => void;
 };

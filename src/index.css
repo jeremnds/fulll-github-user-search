@@ -3,6 +3,8 @@
   padding: 0;
 }
 
+/* App */
+
 .app__container {
   display: flex;
   flex-direction: column;
@@ -21,6 +23,8 @@
 .app__title {
   font-size: 1.5rem;
 }
+
+/* Loading Spinner */
 
 .loading__container {
   display: flex;
@@ -54,6 +58,8 @@
   font-size: 1.2rem;
 }
 
+/* Error Message */
+
 .error-message__container {
   display: flex;
   margin: 1rem;
@@ -62,6 +68,8 @@
   border-radius: 4px;
   color: #c62828;
 }
+
+/* No Results */
 
 .no-results__container {
   display: flex;

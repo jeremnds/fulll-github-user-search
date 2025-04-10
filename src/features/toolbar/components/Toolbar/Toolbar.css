@@ -2,11 +2,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  margin: 0 1rem;
 }
 
 .toolbar__left {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.toolbar__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.toolbar__label-count {
+  font-weight: bold;
 }
