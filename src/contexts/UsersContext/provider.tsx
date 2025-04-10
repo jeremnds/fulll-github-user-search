@@ -11,6 +11,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
   const totalSelected = selectedUserIds.length;
   const isUserSelected = (userId: number) => selectedUserIds.includes(userId);
@@ -93,6 +94,10 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setSelectedUserIds([]);
   };
 
+  const handleToggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
   return (
     <UsersContext.Provider
       value={{
@@ -104,6 +109,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         selectedUserIds,
         hasSearched,
         totalSelected,
+        editMode,
         isUserSelected,
         handleSearchUsers,
         handleToggleUser,
@@ -111,6 +117,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         handleDeselectAllUsers,
         handleDeleteSelectedUsers,
         handleDuplicateUsers,
+        handleToggleEditMode,
       }}
     >
       {children}

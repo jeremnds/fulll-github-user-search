@@ -7,15 +7,17 @@ type UserCardProps = {
 };
 
 export default function UserCard({ user }: UserCardProps) {
-  const { handleToggleUser, isUserSelected } = useUsers();
+  const { handleToggleUser, isUserSelected, editMode } = useUsers();
   return (
     <div className="user-card__container">
-      <input
-        type="checkbox"
-        className="user-card__checkbox"
-        checked={isUserSelected(user.localId)}
-        onChange={() => handleToggleUser(user)}
-      />
+      {editMode && (
+        <input
+          type="checkbox"
+          className="user-card__checkbox"
+          checked={isUserSelected(user.localId)}
+          onChange={() => handleToggleUser(user)}
+        />
+      )}
       <img
         src={user.avatar_url}
         alt={user.login}

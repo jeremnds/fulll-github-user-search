@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1rem;
+  margin: 1rem;
 }
 
 .toolbar__left {
@@ -17,7 +17,7 @@
   gap: 1.5rem;
 }
 
-.toolbar__button {
+.toolbar__action-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -25,4 +25,12 @@
 
 .toolbar__label-count {
   font-weight: bold;
+}
+
+.toolbar__center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem;
 }
