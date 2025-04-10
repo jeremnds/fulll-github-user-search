@@ -13,15 +13,18 @@ export default function UserCard({ user }: UserCardProps) {
         alt={user.login}
         className="user-card__avatar"
       />
-      <div>
-        <h3>{user.login}</h3>
-        <p>{user.id}</p>
+      <div className="user-card__info">
+        <h3 className="user-card__id">{user.id}</h3>
+        <p className="user-card__login">{user.login}</p>
       </div>
-      <button className="user-card__button">
-        <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-          View profile
-        </a>
-      </button>
+      <a
+        href={user.html_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="user-card__button"
+      >
+        View profile
+      </a>
     </div>
   );
 }

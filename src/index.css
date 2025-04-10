@@ -1,5 +1,4 @@
-html,
-body {
+* {
   margin: 0;
   padding: 0;
 }
@@ -14,7 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 64px;
+  min-height: 64px;
   background-color: #9933ff;
   color: #fff;
 }

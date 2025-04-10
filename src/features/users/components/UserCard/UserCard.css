@@ -1,14 +1,56 @@
 .user-card__container {
   background-color: #f0f0f0;
   width: 100px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .user-card__avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.user-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.user-card__id {
+  padding-bottom: 4px;
+}
+
+.user-card__id,
+.user-card__login {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  text-align: center;
+}
+
+.user-card__button {
+  margin-top: auto;
+  width: 100%;
+  background-color: #0d6efd;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.user-card__button:hover {
+  background-color: #0b5ed7;
 }
