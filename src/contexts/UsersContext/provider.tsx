@@ -25,6 +25,12 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await fetch(
           `https://api.github.com/search/users?q=${debouncedQuery}`
         );
+
+        if (response.status === 403) {
+          setError("Rate limit exceeded. Please try again later.");
+          return;
+        }
+
         const data = await response.json();
         setUsers(data.items);
       } catch (error) {

@@ -21,3 +21,51 @@
 .app__title {
   font-size: 1.5rem;
 }
+
+.loading__container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  margin-top: 2rem;
+}
+
+.loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #b9b9b9;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading__text {
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.error-message__container {
+  display: flex;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #ffebee;
+  border-radius: 4px;
+  color: #c62828;
+}
+
+.no-results__container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+  padding: 1rem;
+}
