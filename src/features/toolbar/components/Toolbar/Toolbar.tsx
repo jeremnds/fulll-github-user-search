@@ -35,7 +35,7 @@ export default function Toolbar() {
               }
               checked={totalSelected > 0}
             />
-            <p className="toolbar__label">
+            <p className="toolbar__label" data-testid="elements-selected">
               {totalSelected === 0 ? (
                 "Select all elements"
               ) : (
@@ -51,11 +51,13 @@ export default function Toolbar() {
             <button
               className="toolbar__action-button"
               onClick={handleDuplicateUsers}
+              data-testid="duplicate-icon"
             >
               <DuplicateIcon />
             </button>
             <button
               className="toolbar__action-button"
+              data-testid="delete-icon"
               onClick={() => handleDeleteSelectedUsers(selectedUserIds)}
             >
               <TrashIcon />
