@@ -24,6 +24,11 @@ export type UsersContextType = {
   query: string;
   loading: boolean;
   error: string | null;
+  totalSelected: number;
+  isUserSelected: (userId: number) => boolean;
   handleSearchUsers: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectedUsers: (user: User) => void;
+  handleToggleUser: (user: User) => void;
+  handleSelectAllUsers: () => void;
+  handleDeselectAllUsers: () => void;
+  handleDeleteUsers: () => void;
 };

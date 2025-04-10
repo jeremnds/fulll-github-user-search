@@ -8,9 +8,12 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const debouncedQuery = useDebounce(query, 300);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
-  const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+  const debouncedQuery = useDebounce(query, 300);
+  const totalSelected = selectedUserIds.length;
+  const isUserSelected = (userId: number) => selectedUserIds.includes(userId);
+
   useEffect(() => {
     const fetchUsers = async () => {
       if (!debouncedQuery.trim()) {
@@ -39,9 +42,25 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setQuery(e.target.value);
   };
 
-  const handleSelectedUsers = (user: User) => {
-    setSelectedUsers((prev) => [...prev, user]);
-    console.log(selectedUsers);
+  const handleToggleUser = (user: User) => {
+    setSelectedUserIds((prev) =>
+      prev.includes(user.id)
+        ? prev.filter((id) => id !== user.id)
+        : [...prev, user.id]
+    );
+    console.log(selectedUserIds);
+  };
+
+  const handleSelectAllUsers = () => {
+    setSelectedUserIds(users.map((user) => user.id));
+  };
+
+  const handleDeselectAllUsers = () => {
+    setSelectedUserIds([]);
+  };
+
+  const handleDeleteUsers = () => {
+    setUsers(users.filter((user) => !isUserSelected(user.id)));
   };
 
   return (
@@ -52,8 +71,13 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         query,
         loading,
         error,
+        totalSelected,
+        isUserSelected,
         handleSearchUsers,
-        handleSelectedUsers,
+        handleToggleUser,
+        handleSelectAllUsers,
+        handleDeselectAllUsers,
+        handleDeleteUsers,
       }}
     >
       {children}
