@@ -96,6 +96,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleToggleEditMode = () => {
     setEditMode(!editMode);
+    setSelectedUserIds([]);
   };
 
   return (
