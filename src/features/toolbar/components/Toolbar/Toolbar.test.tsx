@@ -61,7 +61,7 @@ describe("Toolbar", () => {
     expect(handleDuplicateUsers).toHaveBeenCalled();
   });
 
-  it("should call handleDeleteSelectedUsers when duplicate button is clicked", () => {
+  it("should call handleDeleteSelectedUsers when delete button is clicked", () => {
     const handleDeleteSelectedUsers = vi.fn();
     vi.mocked(useUsers).mockReturnValue(
       createMockUsersContext({
@@ -94,5 +94,15 @@ describe("Toolbar", () => {
     expect(screen.getByTestId("elements-selected")).toHaveTextContent(
       "10 elements selected"
     );
+  });
+
+  it("should not show toolbar when not in edit mode", () => {
+    vi.mocked(useUsers).mockReturnValue(createMockUsersContext());
+    render(<Toolbar />);
+    expect(screen.queryByTestId("duplicate-icon")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("delete-icon")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("elements-selected")).not.toBeInTheDocument();
+
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
   });
 });
