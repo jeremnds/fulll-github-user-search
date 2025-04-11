@@ -1,55 +1,77 @@
-# React + TypeScript + Vite
+# GitHub User Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 [Live Demo](https://fulll-github-user-search.vercel.app)
 
-Currently, two official plugins are available:
+Built as part of a frontend technical test for [Fulll](https://github.com/fulll).  
+The goal was to create a GitHub user search interface based on this [technical challenge](https://github.com/fulll/hiring/blob/master/Frontend/github-user-search-intermediaire-senior.md).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Users can search GitHub profiles and manage them locally (select, duplicate, delete).
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- GitHub user search via public API
+- Debounced input
+- Select, duplicate, delete users
+- Edit mode toggle
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack
+
+- React (Vite)
+- TypeScript
+- React Context API
+- React Testing Library
+- Vitest
+
+## Project Structure
+
+The project follows a lightweight feature-based structure, inspired by [Bulletproof React](https://github.com/alan2207/bulletproof-react), adapted to the small scope of the test.
+
+Each feature (like `search`, `toolbar`, or `users`) contains its own components, styles, and tests. This helps keep the code **modular**, **readable**, and **scalable**.
+
+```
+src/
+├── app/                    # App root (main entry point)
+├── components/             # Reusable UI elements
+├── contexts/               # Global state with UsersContext
+├── features/               # Feature-based logic
+│   ├── search/             # Search input component
+│   ├── toolbar/            # Toolbar actions & edit mode
+│   └── users/              # User card & user list
+├── hooks/                  # Custom hooks (e.g., useUsers, useDebounce)
+├── tests/                  # Test setup and mocks
+├── types/                  # Shared TypeScript types
+├── utils/                  # Utility functions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This approach improves **separation of concerns**, avoids **prop drilling**, and makes testing much easier.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Why Context?
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+All user-related state (query, search result, selected users, loading, edit mode...) is shared across multiple components.  
+Using a single `UsersContext` makes the state **centralized**, **testable**, and **easily accessible** from anywhere in the UI.
+
+## Installation
+
+This project uses [pnpm](https://pnpm.io) for faster and more efficient installs.  
+However, you can also install dependencies using `npm` or `yarn` if you prefer:
+
+```bash
+pnpm install
+pnpm dev
+
+npm install
+npm run dev
 ```
-# fulll-github-user-search
+
+## Testing
+
+The app is tested with React Testing Library and Vitest.  
+All key components are unit tested, and the `UsersContext` is mocked for full control during tests.
+
+To run tests:
+
+```bash
+pnpm test
+
+npm run test
+```
